@@ -1,10 +1,10 @@
 call plug#begin('~/.vim/plugged')
 
-
 " Navigation
 Plug 'scrooloose/nerdtree'
 Plug 'kien/ctrlp.vim'
 
+" Programming
 Plug 'fatih/vim-go'
 Plug 'nsf/gocode', { 'rtp': 'vim' }
 
@@ -13,7 +13,7 @@ Plug 'Shougo/neocomplete.vim'
 Plug 'tpope/vim-commentary'
 
 " Colors
-Plug 'tomasr/molokai'
+Plug 'cdmedia/itg_flat_vim'
 
 call plug#end()
 
@@ -109,8 +109,6 @@ autocmd BufWritePre     * :call TrimWhiteSpace()
 au Filetype go nnoremap <leader>r :GoRun %<CR>
 
 let mapleader = ","
-
-" colorscheme molokai
 
 " Odds n Ends
 set ttymouse=xterm2 " makes it work in everything

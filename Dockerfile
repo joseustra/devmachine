@@ -8,16 +8,15 @@ RUN apk --update add ca-certificates
 RUN apk --update add vim curl
 RUN apk --update add curl
 RUN apk --update add perl
+RUN apk --update add ruby
 
 RUN adduser -D dev
 
-WORKDIR /home
-ENV HOME /home
+WORKDIR /home/dev
+ENV HOME /home/dev
 ENV LC_ALL en_US.UTF-8
 
-RUN chown -R dev:dev $HOME
-USER dev
-
+RUN mkdir -p $HOME/code
 RUN mkdir -p $HOME/go/src $HOME/go/bin && chmod -R 777 $HOME
 ENV GOPATH $HOME/go
 ENV PATH $HOME/go/bin:$PATH
@@ -29,5 +28,7 @@ COPY vimrc $HOME/.vimrc
 
 RUN vim +PlugInstall +qall
 RUN vim +GoInstallBinaries +qall
+
+RUN echo "colorscheme itg_flat" >> $HOME/.vimrc
 
 CMD ["/bin/sh"]
