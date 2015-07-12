@@ -9,6 +9,7 @@ RUN apk --update add vim curl
 RUN apk --update add curl
 RUN apk --update add perl
 RUN apk --update add ruby
+RUN apk --update add ack
 
 RUN adduser -D dev
 

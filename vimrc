@@ -11,6 +11,7 @@ Plug 'nsf/gocode', { 'rtp': 'vim' }
 " Other Utilities
 Plug 'Shougo/neocomplete.vim'
 Plug 'tpope/vim-commentary'
+Plug 'mileszs/ack.vim'
 
 " Colors
 Plug 'cdmedia/itg_flat_vim'
