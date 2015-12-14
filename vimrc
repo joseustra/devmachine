@@ -15,6 +15,7 @@ Plug 'tpope/vim-dispatch'
 Plug 'wincent/ferret'
 Plug 'ervandew/supertab'
 Plug 'scrooloose/syntastic'
+Plug 'cdmedia/itg_flat_vim'
 
 call plug#end()
 
@@ -43,7 +44,6 @@ imap <down> <nop>
 imap <left> <nop>
 imap <right> <nop>
 
-colorscheme molokai
 set backspace=indent,eol,start " allow backspacing over everything in insert mode
 set history=500		" keep 500 lines of command line history
 set ruler		" show the cursor position all the time
