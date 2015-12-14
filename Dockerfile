@@ -5,7 +5,7 @@ RUN apk --update add git
 RUN apk --update add mercurial
 RUN apk --update add openssh-client
 RUN apk --update add ca-certificates
-RUN apk --update add vim curl
+RUN apk --update add vim
 RUN apk --update add curl
 RUN apk --update add perl
 RUN apk --update add ruby
