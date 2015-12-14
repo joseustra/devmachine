@@ -1,138 +1,122 @@
 call plug#begin('~/.vim/plugged')
 
-" Navigation
-Plug 'scrooloose/nerdtree'
 Plug 'kien/ctrlp.vim'
-
-" Programming
+Plug 'tomasr/molokai'
 Plug 'fatih/vim-go'
-Plug 'nsf/gocode', { 'rtp': 'vim' }
-
-" Other Utilities
+Plug 'scrooloose/nerdtree'
+Plug 'easymotion/vim-easymotion'
+Plug 'tpope/vim-fugitive'
+Plug 'bling/vim-airline'
+Plug 'scrooloose/nerdcommenter'
+Plug 'airblade/vim-gitgutter'
+Plug 'mustache/vim-mustache-handlebars'
 Plug 'Shougo/neocomplete.vim'
-Plug 'tpope/vim-commentary'
-Plug 'mileszs/ack.vim'
-
-" Colors
-Plug 'cdmedia/itg_flat_vim'
+Plug 'tpope/vim-dispatch'
+Plug 'wincent/ferret'
+Plug 'ervandew/supertab'
+Plug 'scrooloose/syntastic'
 
 call plug#end()
 
+filetype plugin on
+filetype plugin indent on
 syntax on
-filetype plugin indent on " load filetype plugins/indent settings
 
-" General
-set clipboard+=unnamed " share windows clipboard
-set wildmenu " turn on command line completion wild style
-set wildignore=*.dll,*.o,*.obj,*.bak,*.exe,*.pyc,*.jpg,*.gif,*.png,*.log,*Godeps,*/tmp/*,*.so,*.swp,*.zip " ignore these list file extensions
-set nobackup
-set noswapfile
-set nowritebackup
+let mapleader = ","
 
-" Vim UI
-set incsearch
-set laststatus=2 " always show the status line
-set lazyredraw " do not redraw while running macros
-set linespace=0 " don't insert any extra pixel lines betweens rows
-set number " turn on line numbers
-set numberwidth=5 " We are good up to 99999 lines
-set ruler
+" Switch panes with ctrl + j|k|h|l
+map <C-j> <C-W>j
+map <C-k> <C-W>k
+map <C-h> <C-W>h
+map <C-l> <C-W>l
+
+" Disable Arrow keys in Escape mode
+
+map <up> <nop>
+map <down> <nop>
+map <left> <nop>
+map <right> <nop>
+" Disable Arrow keys in Insert mode
+
+imap <up> <nop>
+imap <down> <nop>
+imap <left> <nop>
+imap <right> <nop>
+
+colorscheme molokai
+set backspace=indent,eol,start " allow backspacing over everything in insert mode
+set history=500		" keep 500 lines of command line history
+set ruler		" show the cursor position all the time
+set showcmd		" display incomplete commands
+set autoindent
 set showmatch
-set sidescrolloff=10 " Keep 5 lines at the size
-set ignorecase
-set tabstop=2
-set shiftwidth=2
-set softtabstop=2
+set nowrap
+set sw=2
+set smarttab
+set noincsearch
+set ignorecase smartcase
+set laststatus=2  " Always show status line.
+set relativenumber
+set gdefault " assume the /g flag on :s substitutions to replace all matches in a line
+set lazyredraw " Don't redraw screen when running macros.
+set directory^=$HOME/.vimswp//
+set cursorline
+set clipboard=unnamed
+
+set guifont=Hack:h12
+
+
+" Use Silver Searcher instead of grep
+set grepprg=ag
+
+" Highlight the status line
+highlight StatusLine ctermfg=blue ctermbg=yellow
+
+" Highlight search result
 set hlsearch
-set mouse=a
+map <Leader><Space> :nohlsearch<CR>
 
-" moving among splits
-nnoremap <C-h> <C-w>h
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-l> <C-w>l
+" (Hopefully) removes the delay when hitting esc in insert mode
+set noesckeys
+set ttimeout
+set ttimeoutlen=1
 
-" <leader>w opens a vertical split window and switches to it
-nnoremap <leader>W <C-w>v<C-w>l
-" <leader>s opens a horizontal split window and switches to it
-nnoremap <leader>S <C-w>s<C-w>l
-" <leader><Space> clear last search highlightin
-map <Space> :noh<cr>
+" Make CtrlP use ag for listing the files. Way faster and no useless files.
+" Without --hidden, it never finds .travis.yml since it starts with a dot
+let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+let g:ctrlp_use_caching = 0
 
-" Automatic formatting
-autocmd BufWritePre *.rb :%s/\s\+$//e
-autocmd BufWritePre *.haml :%s/\s\+$//e
-autocmd BufWritePre *.html :%s/\s\+$//e
-autocmd BufWritePre *.scss :%s/\s\+$//e
-autocmd BufWritePre *.slim :%s/\s\+$//e
-autocmd BufWritePre *.go :%s/\s\+$//e
+
+" Remove trailing whitespace on save for all files.
+au BufWritePre *.* :%s/\s\+$//e
+
+" By default, vim thinks .md is Modula-2.
+autocmd BufNewFile,BufReadPost *.md set filetype=markdown
+
+" Without this, vim breaks in the middle of words when wrapping
+autocmd FileType markdown setlocal nolist wrap lbr
+
+" NERDTree
+map <C-n> :NERDTreeToggle<CR>
+
+"Neocomplete
+let g:neocomplete#enable_at_startup = 1
 
 " vim-go
-au FileType go nmap <leader>r <Plug>(go-run)
-au FileType go nmap <leader>b <Plug>(go-build)
-au FileType go nmap <leader>t <Plug>(go-test)
-au FileType go nmap <leader>c <Plug>(go-coverage)
-au FileType go nmap <Leader>gd <Plug>(go-doc)
-au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
-au FileType go nmap <Leader>gb <Plug>(go-doc-browser)
-au FileType go nmap <Leader>s <Plug>(go-implements)
-
 let g:go_highlight_functions = 1
 let g:go_highlight_methods = 1
 let g:go_highlight_structs = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
+
 let g:go_fmt_command = "goimports"
 
-"NERDTree
-map <C-n> :NERDTreeToggle<CR>
-let NERDTreeHighlightCursorline=1
-let NERDTreeIgnore = ['tmp', '.yardoc', 'pkg']
+" syntastic
+let g:syntastic_go_checkers = ['go', 'golint', 'govet']
+let g:syntastic_aggregate_errors = 1
 
-if exists('&relativenumber')
-  set relativenumber
-  augroup WindowRNU
-    auto!
-    auto BufWinEnter,WinEnter,FocusGained * setlocal relativenumber
-    auto WinLeave,FocusLost               * setlocal number
-  augroup END
-endif
-
-" Removes trailing spaces
-function! TrimWhiteSpace()
-  %s/\s\+$//e
+" clock for vim-airline
+function! AirlineInit()
+  let g:airline_section_y = airline#section#create(['ffenc', '%{strftime("%H:%M")}'])
 endfunction
-nnoremap <silent> <Leader>rts :call TrimWhiteSpace()<CR>
-autocmd FileWritePre    * :call TrimWhiteSpace()
-autocmd FileAppendPre   * :call TrimWhiteSpace()
-autocmd FilterWritePre  * :call TrimWhiteSpace()
-autocmd BufWritePre     * :call TrimWhiteSpace()
-
-au Filetype go nnoremap <leader>r :GoRun %<CR>
-
-let mapleader = ","
-
-" Odds n Ends
-set ttymouse=xterm2 " makes it work in everything
-set runtimepath+=$GOROOT/misc/vim
-
-" neocomplete
-let g:acp_enableAtStartup = 1
-let g:neocomplete#enable_at_startup = 1
-let g:neocomplete#enable_smart_case = 1
-let g:neocomplete#sources#syntax#min_keyword_length = 3
-let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
-
-inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-function! s:my_cr_function()
-  return neocomplete#close_popup() . "\<CR>"
-  " For no inserting <CR> key.
-  "return pumvisible() ? neocomplete#close_popup() : "\<CR>"
-endfunction
-" <TAB>: completion.
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-" <C-h>, <BS>: close popup and delete backword char.
-inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
-inoremap <expr><C-y>  neocomplete#close_popup()
-inoremap <expr><C-e>  neocomplete#cancel_popup()
+autocmd VimEnter * call AirlineInit()
