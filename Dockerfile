@@ -17,7 +17,6 @@ WORKDIR /home/dev
 ENV HOME /home/dev
 ENV LC_ALL en_US.UTF-8
 
-RUN mkdir -p $HOME/code
 RUN mkdir -p $HOME/go/src $HOME/go/bin && chmod -R 777 $HOME
 ENV GOPATH $HOME/go
 ENV PATH $HOME/go/bin:$PATH
